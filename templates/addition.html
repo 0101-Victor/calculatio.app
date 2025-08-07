@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>たし算の問題</title>
+</head>
+<body>
+    <h1>たし算の問題</h1>
+    <form method="POST">
+        <ul>
+            {% for p in problems %}
+                <li>
+                    {{ p.a }} + {{ p.b }} =
+                    <input type="text" name="answer_{{ loop.index0 }}">
+                </li>
+            {% endfor %}
+        </ul>
+        <input type="hidden" name="problems" value="{{ problems|tojson }}">
+        <button type="submit">採点する</button>
+    </form>
+    <a href="/">← 戻る</a>
+</body>
+</html>
