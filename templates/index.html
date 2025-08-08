@@ -1,18 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>どんどんやろう計算ドリル！</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function showResult(isCorrect) {
+            const resultDiv = document.getElementById("result");
+            if (isCorrect) {
+                resultDiv.textContent = "全問正解！すごい！";
+                resultDiv.className = "result correct";
+            } else {
+                resultDiv.textContent = "間違いがあります。もう一度挑戦！";
+                resultDiv.className = "result incorrect";
+            }
+            resultDiv.style.display = "block";
+        }
+    </script>
 </head>
 <body>
-    <header>
-        <h1>どんどんやろう！<br>「計算ドリル」</h1>
-    </header>
-    <main>
-        <h2><a href="/addition">「 ＋ 」たし算</a></h2>
-        <h2>「 － 」ひき算</h2>
-        <h2>「 × 」かけ算</h2>
-        <h2>「 ÷ 」わり算</h2>
-    </main>
+    <div class="container">
+        <!-- ステージ表示 -->
+        <div class="stage">
+            現在のステージ：{{ stage }} 桁数
+        </div>
+
+        <h1>計算ドリル</h1>
+        <form method="POST" action="/">
+            {% for problem in problems %}
+            <div class="problem">
+                {{ loop.index }}. {{ problem['q'] }} = 
+                <input type="number" name="answer{{ loop.index }}" required>
+                <input type="hidden" name="correct{{ loop.index }}" value="{{ problem['a'] }}">
+            </div>
+            {% endfor %}
+            <button type="submit">採点する</button>
+        </form>
+
+        <!-- 採点結果 -->
+        {% if result is defined %}
+            {% if result.correct_count == result.total %}
+                <div id="result" class="result correct">
+                    {{ result.correct_count }} / {{ result.total }} 問正解！おめでとう！
+                </div>
+            {% else %}
+                <div id="result" class="result incorrect">
+                    {{ result.correct_count }} / {{ result.total }} 問正解。もう一度挑戦しよう！
+                </div>
+            {% endif %}
+        {% else %}
+            <div id="result" class="result"></div>
+        {% endif %}
+    </div>
 </body>
 </html>
