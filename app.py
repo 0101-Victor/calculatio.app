@@ -1,56 +1,51 @@
-from flask import Flask, render_template, request, redirect, session, url_for
-from problems import generate_addition_problems
+from flask import Flask, render_template, request
+import random
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'  # セッション用
 
+# トップページ
 @app.route('/')
 def index():
-    session['stage'] = 1
-    session['round'] = 0
     return render_template('index.html')
 
-@app.route('/addition', methods=['GET', 'POST'])
+# たし算ページ（問題表示）
+@app.route('/addition')
 def addition():
-    if 'stage' not in session:
-        session['stage'] = 1
-    if 'round' not in session:
-        session['round'] = 0
-
-    if request.method == 'POST':
-        problems = json.loads(request.form['problems'])
-        score = 0
-        results = []
-
-        for i, p in enumerate(problems):
-            user_answer = request.form.get(f'answer_{i}')
-            correct = str(p['answer']) == user_answer.strip()
-            results.append({
-                "question": f"{p['a']} + {p['b']}",
-                "user": user_answer,
-                "correct": correct,
-                "answer": p['answer']
-            })
-            if correct:
-                score += 1
-
-        session['round'] += 1
-        is_last_round = session['round'] >= 5
-
-        if is_last_round:
-            session['stage'] += 1
-            session['round'] = 0  # 次ステージに移行
-
-        return render_template(
-            'addition_result.html',
-            results=results,
-            score=score,
-            total=len(problems),
-            is_last_round=is_last_round
-        )
-
-    problems = generate_addition_problems(stage=session['stage'])
+    problems = []
+    for _ in range(10):
+        a = random.randint(1, 50)
+        b = random.randint(1, 50)
+        problems.append({'a': a, 'b': b})
     return render_template('addition.html', problems=problems)
+
+# 採点処理
+@app.route('/addition_results', methods=['POST'])
+def addition_results():
+    results = []
+    score = 0
+    for i in range(10):
+        a = int(request.form[f'a{i}'])
+        b = int(request.form[f'b{i}'])
+        correct_answer = a + b
+        user_answer = request.form.get(f'answer{i}', '')
+        try:
+            user_answer_int = int(user_answer)
+            is_correct = (user_answer_int == correct_answer)
+        except:
+            is_correct = False
+
+        if is_correct:
+            score += 1
+
+        results.append({
+            'a': a,
+            'b': b,
+            'user_answer': user_answer,
+            'correct_answer': correct_answer,
+            'is_correct': is_correct
+        })
+
+    return render_template('addition_results.html', results=results, score=score)
 
 if __name__ == '__main__':
     app.run(debug=True)

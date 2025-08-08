@@ -1,73 +1,30 @@
 body {
-    font-family: 'Comic Sans MS', 'Arial', sans-serif;
-    background-color: #fff8e7; /* 明るいクリーム色 */
-    margin: 0;
-    padding: 0;
+    font-family: sans-serif;
+    background: #fff9e6;
+    text-align: center;
 }
 
-.container {
-    max-width: 600px;
+table {
     margin: auto;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(255, 200, 100, 0.4);
+    border-collapse: collapse;
 }
 
-h1 {
+td {
+    padding: 5px 10px;
+}
+
+input[type="text"] {
+    width: 60px;
     text-align: center;
-    color: #ff9800;
-    text-shadow: 1px 1px #ffe0b2;
-}
-
-.stage {
-    background-color: #ffecb3;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.problem {
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: #e1f5fe; /* 明るい水色 */
-    border-radius: 10px;
-    border: 2px solid #81d4fa;
 }
 
 button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 20px;
-    font-size: 1.2em;
-    background-color: #4caf50;
-    color: white;
+    padding: 10px 20px;
+    background: #ffb347;
     border: none;
-    border-radius: 10px;
+    color: white;
     cursor: pointer;
 }
-
 button:hover {
-    background-color: #388e3c;
-}
-
-.result {
-    margin-top: 20px;
-    padding: 10px;
-    font-weight: bold;
-    text-align: center;
-    display: none;
-    border-radius: 8px;
-}
-
-.result.correct {
-    background-color: #c8e6c9;
-    color: #2e7d32;
-}
-
-.result.incorrect {
-    background-color: #ffcdd2;
-    color: #c62828;
+    background: #ff9933;
 }

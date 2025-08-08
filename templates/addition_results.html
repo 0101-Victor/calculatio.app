@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>結果 - たし算ドリル</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>結果発表！</h2>
+    <table>
+        {% for r in results %}
+        <tr style="color: {{ 'black' if r.is_correct else 'red' }};">
+            <td>{{ r.a }}</td>
+            <td>＋</td>
+            <td>{{ r.b }}</td>
+            <td>=</td>
+            <td>{{ r.user_answer }}</td>
+            {% if not r.is_correct %}
+            <td>（正解: {{ r.correct_answer }}）</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <p>正解は {{ score }} 問 / 10 問です！</p>
+    <a href="{{ url_for('index') }}">トップに戻る</a>
+</body>
+</html>

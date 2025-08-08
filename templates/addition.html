@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>たし算ドリル</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>たし算ドリル</h2>
+    <form method="POST" action="{{ url_for('addition_results') }}">
+        <table>
+            {% for p in problems %}
+            <tr>
+                <td>{{ p.a }}</td>
+                <td>＋</td>
+                <td>{{ p.b }}</td>
+                <td>=</td>
+                <td>
+                    <input type="hidden" name="a{{ loop.index0 }}" value="{{ p.a }}">
+                    <input type="hidden" name="b{{ loop.index0 }}" value="{{ p.b }}">
+                    <input type="text" name="answer{{ loop.index0 }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">答え合わせ</button>
+    </form>
+</body>
+</html>
