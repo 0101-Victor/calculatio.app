@@ -1,29 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <title>たし算ドリル</title>
+    <meta charset="UTF-8">
+    <title>足し算ドリル</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>たし算ドリル</h2>
-    <form method="POST" action="{{ url_for('addition_results') }}">
-        <table>
-            {% for p in problems %}
-            <tr>
-                <td>{{ p.a }}</td>
-                <td>＋</td>
-                <td>{{ p.b }}</td>
-                <td>=</td>
-                <td>
-                    <input type="hidden" name="a{{ loop.index0 }}" value="{{ p.a }}">
-                    <input type="hidden" name="b{{ loop.index0 }}" value="{{ p.b }}">
-                    <input type="text" name="answer{{ loop.index0 }}">
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <button type="submit">答え合わせ</button>
+    <h1>足し算ドリル</h1>
+
+    {% if problems %}
+    <!-- 問題表示 -->
+    <form method="POST">
+        {% for num1, num2 in problems %}
+            <p>
+                {{ num1 }} + {{ num2 }} = 
+                <input type="hidden" name="num1_{{ loop.index0 }}" value="{{ num1 }}">
+                <input type="hidden" name="num2_{{ loop.index0 }}" value="{{ num2 }}">
+                <input type="number" name="answer{{ loop.index0 }}" required>
+            </p>
+        {% endfor %}
+        <button type="submit">採点する</button>
     </form>
+
+    {% elif results %}
+    <!-- 採点結果 -->
+    <h2>結果</h2>
+    <p>{{ total }}問中 {{ score }}問正解</p>
+    <ul>
+        {% for r in results %}
+            <li>{{ r.problem }} → あなたの答え: {{ r.user_answer }} / 正解: {{ r.correct_answer }} 
+                {% if r.is_correct %} ✅{% else %} ❌{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('addition') }}">もう一度挑戦する</a>
+    {% endif %}
+
+    <p><a href="{{ url_for('index') }}">トップに戻る</a></p>
 </body>
 </html>

@@ -1,30 +1,13 @@
 body {
     font-family: sans-serif;
-    background: #fff9e6;
-    text-align: center;
+    margin: 20px;
 }
 
-table {
-    margin: auto;
-    border-collapse: collapse;
-}
-
-td {
-    padding: 5px 10px;
-}
-
-input[type="text"] {
-    width: 60px;
-    text-align: center;
+h1 {
+    color: #333;
 }
 
 button {
-    padding: 10px 20px;
-    background: #ffb347;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
-button:hover {
-    background: #ff9933;
+    padding: 5px 10px;
+    font-size: 16px;
 }
