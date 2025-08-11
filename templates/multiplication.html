@@ -2,17 +2,17 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>足し算ドリル</title>
+    <title>かけ算ドリル</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>足し算ドリル</h1>
+    <h1>かけ算ドリル</h1>
 
     {% if problems %}
     <form method="POST">
         {% for num1, num2 in problems %}
             <p>
-                {{ num1 }} + {{ num2 }} = 
+                {{ num1 }} × {{ num2 }} = 
                 <input type="hidden" name="num1_{{ loop.index0 }}" value="{{ num1 }}">
                 <input type="hidden" name="num2_{{ loop.index0 }}" value="{{ num2 }}">
                 <input type="number" name="answer{{ loop.index0 }}" required>

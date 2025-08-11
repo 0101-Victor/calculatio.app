@@ -95,7 +95,7 @@ def division():
         for i in range(total):
             num1 = int(request.form[f'num1_{i}'])
             num2 = int(request.form[f'num2_{i}'])
-            correct_answer = num1 // num2  # 商を正解とする
+            correct_answer = num1 // num2  # 整数除算
             user_answer = int(request.form[f'answer{i}'])
             is_correct = (user_answer == correct_answer)
             if is_correct:
