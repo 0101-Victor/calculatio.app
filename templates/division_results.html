@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>採点結果 - わり算</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>わり算 採点結果</h1>
+    <p>{{ total }}問中 {{ score }}問正解</p>
+    <ul>
+        {% for r in results %}
+            <li>{{ r.problem }} → あなたの答え: {{ r.user_answer }} / 正解: {{ r.correct_answer }} 
+                {% if r.is_correct %} ✅{% else %} ❌{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('division') }}">もう一度挑戦する</a><br>
+    <a href="{{ url_for('index') }}">トップに戻る</a>
+</body>
+</html>

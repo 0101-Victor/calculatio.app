@@ -1,115 +1,27 @@
-from flask import Flask, render_template, request
-from calculate import generate_addition_problems, generate_subtraction_problems, generate_multiplication_problems, generate_division_problems
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ひき算ドリル</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>ひき算ドリル</h1>
 
-app = Flask(__name__)
+    {% if problems %}
+    <form method="POST">
+        {% for num1, num2 in problems %}
+            <p>
+                {{ num1 }} - {{ num2 }} = 
+                <input type="hidden" name="num1_{{ loop.index0 }}" value="{{ num1 }}">
+                <input type="hidden" name="num2_{{ loop.index0 }}" value="{{ num2 }}">
+                <input type="number" name="answer{{ loop.index0 }}" required>
+            </p>
+        {% endfor %}
+        <button type="submit">採点する</button>
+    </form>
+    {% endif %}
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-# たし算
-@app.route('/addition', methods=['GET', 'POST'])
-def addition():
-    if request.method == 'POST':
-        results = []
-        score = 0
-        total = 5
-        for i in range(total):
-            num1 = int(request.form[f'num1_{i}'])
-            num2 = int(request.form[f'num2_{i}'])
-            correct_answer = num1 + num2
-            user_answer = int(request.form[f'answer{i}'])
-            is_correct = (user_answer == correct_answer)
-            if is_correct:
-                score += 1
-            results.append({
-                "problem": f"{num1} + {num2}",
-                "user_answer": user_answer,
-                "correct_answer": correct_answer,
-                "is_correct": is_correct
-            })
-        return render_template('addition_results.html', results=results, score=score, total=total)
-    else:
-        problems = generate_addition_problems()
-        return render_template('addition.html', problems=problems)
-
-# ひき算
-@app.route('/subtraction', methods=['GET', 'POST'])
-def subtraction():
-    if request.method == 'POST':
-        results = []
-        score = 0
-        total = 5
-        for i in range(total):
-            num1 = int(request.form[f'num1_{i}'])
-            num2 = int(request.form[f'num2_{i}'])
-            correct_answer = num1 - num2
-            user_answer = int(request.form[f'answer{i}'])
-            is_correct = (user_answer == correct_answer)
-            if is_correct:
-                score += 1
-            results.append({
-                "problem": f"{num1} - {num2}",
-                "user_answer": user_answer,
-                "correct_answer": correct_answer,
-                "is_correct": is_correct
-            })
-        return render_template('subtraction_results.html', results=results, score=score, total=total)
-    else:
-        problems = generate_subtraction_problems()
-        return render_template('subtraction.html', problems=problems)
-
-# かけ算
-@app.route('/multiplication', methods=['GET', 'POST'])
-def multiplication():
-    if request.method == 'POST':
-        results = []
-        score = 0
-        total = 5
-        for i in range(total):
-            num1 = int(request.form[f'num1_{i}'])
-            num2 = int(request.form[f'num2_{i}'])
-            correct_answer = num1 * num2
-            user_answer = int(request.form[f'answer{i}'])
-            is_correct = (user_answer == correct_answer)
-            if is_correct:
-                score += 1
-            results.append({
-                "problem": f"{num1} × {num2}",
-                "user_answer": user_answer,
-                "correct_answer": correct_answer,
-                "is_correct": is_correct
-            })
-        return render_template('multiplication_results.html', results=results, score=score, total=total)
-    else:
-        problems = generate_multiplication_problems()
-        return render_template('multiplication.html', problems=problems)
-
-# わり算
-@app.route('/division', methods=['GET', 'POST'])
-def division():
-    if request.method == 'POST':
-        results = []
-        score = 0
-        total = 5
-        for i in range(total):
-            num1 = int(request.form[f'num1_{i}'])
-            num2 = int(request.form[f'num2_{i}'])
-            correct_answer = num1 // num2  # 整数除算
-            user_answer = int(request.form[f'answer{i}'])
-            is_correct = (user_answer == correct_answer)
-            if is_correct:
-                score += 1
-            results.append({
-                "problem": f"{num1} ÷ {num2}",
-                "user_answer": user_answer,
-                "correct_answer": correct_answer,
-                "is_correct": is_correct
-            })
-        return render_template('division_results.html', results=results, score=score, total=total)
-    else:
-        problems = generate_division_problems()
-        return render_template('division.html', problems=problems)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    <p><a href="{{ url_for('index') }}">トップに戻る</a></p>
+</body>
+</html>
